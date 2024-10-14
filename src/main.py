@@ -1,14 +1,20 @@
-# Datei festlegen
+# main.py
+from lexer import Lexer
+from parser import Parser
+
 filename = 'main.les'
 
-# Schritt 1: Datei öffnen und einlesen
 try:
     with open(filename, 'r') as file:
-        source_code = file.read()  # Gesamten Inhalt einlesen
+        source_code = file.read()
 except FileNotFoundError:
     print(f"Fehler: Die Datei {filename} wurde nicht gefunden.")
-    exit(1)  # Beende das Programm mit einem Fehlerstatus
+    exit(1)
 
-# Schritt 2: Ausgabe des gelesenen Codes
-print("Eingelesener Code:")
-print(source_code)
+lexer = Lexer(source_code)
+parser = Parser(lexer)
+ast = parser.parse()
+
+# Ausgabe des AST
+for node in ast:
+    print(f'Parsed Return Node with value: {node.value}')
